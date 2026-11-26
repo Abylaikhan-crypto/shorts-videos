@@ -786,6 +786,9 @@ if __name__ == "__main__":
         surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, W, H)
         for arg in sys.argv[3:]:
             sc, ts = arg.split(":"); frame(surf, sc, float(ts)); surf.write_to_png(f"{EP}/preview/{sc}_{ts}.png")
+    elif sys.argv[2] == "cuts":   # shot cut + whip times per scene, for the sound mixer
+        json.dump({sc: {"cuts": [t0 for t0, _t1, _f in lst][1:], "whips": list(tr.keys())} for sc, (lst, tr) in SHOTS.items()},
+                  open(f"{EP}/cuts.json", "w"))
     elif sys.argv[2] == "mids":
         surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, W, H)
         for sc, (lst, _) in SHOTS.items():
